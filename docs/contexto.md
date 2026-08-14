@@ -33,6 +33,11 @@ Fora deste nível: observabilidade, testes de integração e e2e, cobertura medi
   lugar só.
 - 14/08/2026 — termos de uso e política de privacidade fora de escopo — não há usuário real nem
   coleta de dado pessoal.
+- 14/08/2026 — entrega em 28/08/2026 — é o desafio avaliativo de uma pós-graduação, com prazo fixo
+  definido pelo enunciado.
+- 14/08/2026 — deploy do backend em AWS ECS é opcional, dependente de sobrar prazo — Docker Compose
+  local é obrigatório e já cobre a avaliação; publicar em nuvem só se o restante do backlog estiver
+  pronto antes de 28/08/2026.
 
 ## Suposições sobre o enunciado
 
