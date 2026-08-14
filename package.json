@@ -1,0 +1,11 @@
+{
+  "name": "brevly-url-shortener",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "server",
+    "web"
+  ]
+}
