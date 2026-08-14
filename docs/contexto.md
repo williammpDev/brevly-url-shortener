@@ -12,8 +12,11 @@ Ambiente local: Docker Compose (aplicação + Postgres).
 
 ## Onde estamos
 
-Repositório recém-criado. Nada implementado ainda: os arquivos de processo existem, o código não.
-Próximo passo é o setup do monorepo e a esteira rodando no CI antes da primeira feature.
+Issue #1 entregue e mergeada (PR #7): monorepo criado com workspaces `server` e `web`, `.nvmrc`
+fixando a versão do Node, `server` com Fastify mínimo (rota de health-check) e `web` com Vite +
+React + TypeScript, seguindo a estrutura de pastas de `docs/arquitetura.md`.
+Falta o restante da esteira antes da primeira feature: Biome (#2), Commitlint com husky (#3),
+Vitest (#4), docker-compose com Postgres (#5) e o workflow de CI (#6).
 
 ## Nível da esteira
 
