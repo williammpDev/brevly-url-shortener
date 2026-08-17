@@ -8,21 +8,26 @@ uma pós-graduação, com entrega até 28/08/2026 — o que é avaliado é este 
 
 Backend: Node.js, TypeScript, Fastify, Zod, Drizzle, PostgreSQL, Cloudflare R2, OpenAPI.
 Frontend: React, Vite, TypeScript.
-Ambiente local: Docker Compose (aplicação + Postgres).
+Ambiente local: Docker Compose com Postgres; as duas aplicações rodam pelo npm. Empacotar o backend
+no compose depende da imagem Docker ser exercitada (#28).
 
 ## Onde estamos
 
-Repositório recém-criado. Nada implementado ainda: os arquivos de processo existem, o código não.
-Próximo passo é o setup do monorepo e a esteira rodando no CI antes da primeira feature.
+Bloco de setup concluído, sem nenhuma feature de produto ainda. No repositório: monorepo com
+workspaces `server` e `web` (#1), Biome para lint e formatação (#2), Commitlint no hook `commit-msg`
+via husky (#3), Vitest configurado nos dois workspaces com um teste de exemplo em cada (#4), Docker
+Compose com Postgres para o ambiente local (#5) e workflow de CI rodando lint, testes e build em
+cada Pull Request (#6).
+Próximo passo é a primeira leva do backend: variáveis de ambiente validadas (#11) e a modelagem da
+tabela de links com Drizzle e migrations (#12).
 
 ## Nível da esteira
 
 Nível 1 — enxuto.
 
-Rodando: nada ainda, o setup é a primeira tarefa.
-Previsto para o nível 1: Biome (lint e formatação), Commitlint, testes unitários do núcleo com
-Vitest, rate limit nas rotas públicas, checklist de arquitetura na revisão do PR, CI rodando lint,
-testes e build em cada PR.
+Rodando: Biome (lint e formatação), Commitlint no hook local e no CI, Vitest nos dois workspaces,
+CI com lint, testes e build em cada PR, checklist de arquitetura na revisão do PR.
+Ainda previsto para o nível 1: rate limit nas rotas públicas (#20), que depende das rotas existirem.
 Fora deste nível: observabilidade, testes de integração e e2e, cobertura medida, mutation testing.
 
 ## Decisões recentes
@@ -33,6 +38,11 @@ Fora deste nível: observabilidade, testes de integração e e2e, cobertura medi
   lugar só.
 - 14/08/2026 — termos de uso e política de privacidade fora de escopo — não há usuário real nem
   coleta de dado pessoal.
+- 14/08/2026 — entrega em 28/08/2026 — é o desafio avaliativo de uma pós-graduação, com prazo fixo
+  definido pelo enunciado.
+- 14/08/2026 — deploy do backend em AWS ECS é opcional, dependente de sobrar prazo — Docker Compose
+  local é obrigatório e já cobre a avaliação; publicar em nuvem só se o restante do backlog estiver
+  pronto antes de 28/08/2026.
 
 ## Suposições sobre o enunciado
 
@@ -46,8 +56,9 @@ referência. Estas decisões preenchem as lacunas e podem estar diferentes do es
 
 ## Pendências abertas
 
-- Deploy do backend ainda não decidido. Docker Compose local é obrigatório; publicar em AWS ECS
-  depende de sobrar prazo. Se não sobrar, a decisão fica registrada aqui e em `docs/arquitetura.md`.
+- Deploy do backend em AWS ECS continua opcional (ver Decisões recentes). O Docker Compose local já
+  está no repositório e cobre a obrigação; se o prazo não sobrar, o registro da decisão fica aqui e
+  em `docs/arquitetura.md`, e a Issue #29 cuida apenas do deploy do frontend.
 
 ## Regras de trabalho
 
