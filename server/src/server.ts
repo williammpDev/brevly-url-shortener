@@ -2,9 +2,7 @@ import { buildApp } from './app.js'
 
 const app = buildApp()
 
-app
-  .listen({ port: 3333, host: '0.0.0.0' })
-  .catch((error) => {
-    app.log.error(error)
-    process.exit(1)
-  })
+app.listen({ port: 3333, host: '0.0.0.0' }).catch((error) => {
+  app.log.error(error)
+  process.exit(1)
+})
