@@ -18,4 +18,4 @@ export const links = pgTable(
 )
 
 export type Link = typeof links.$inferSelect
-export type NovoLink = typeof links.$inferInsert
+export type NewLink = typeof links.$inferInsert
