@@ -6,6 +6,7 @@ import {
 } from 'fastify-type-provider-zod'
 import { createLinkRoute } from './routes/create-link.js'
 import { healthRoute } from './routes/health.js'
+import { listLinksRoute } from './routes/list-links.js'
 import { SlugAlreadyInUseError } from './services/errors.js'
 
 export function buildApp(options: FastifyServerOptions = { logger: true }) {
@@ -33,6 +34,7 @@ export function buildApp(options: FastifyServerOptions = { logger: true }) {
 
   app.register(healthRoute)
   app.register(createLinkRoute)
+  app.register(listLinksRoute)
 
   return app
 }

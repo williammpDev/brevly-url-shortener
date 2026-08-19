@@ -1,6 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 import { createLink } from '../services/create-link.js'
+import { linkSchema } from './link-schema.js'
 
 /**
  * Letras, números e hífen, sem hífen nas pontas. A validação aceita maiúsculas
@@ -15,14 +16,6 @@ const slugSchema = z
     /^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?$/,
     'aceita apenas letras, números e hífen, e não pode começar nem terminar com hífen',
   )
-
-const linkSchema = z.object({
-  id: z.uuid(),
-  slug: z.string(),
-  originalUrl: z.string(),
-  accessCount: z.number().int(),
-  createdAt: z.date(),
-})
 
 export const createLinkRoute: FastifyPluginAsyncZod = async (app) => {
   app.post(
