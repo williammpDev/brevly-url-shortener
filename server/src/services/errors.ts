@@ -11,3 +11,13 @@ export class SlugAlreadyInUseError extends Error {
     this.slug = slug
   }
 }
+
+export class LinkNotFoundError extends Error {
+  readonly slug: string
+
+  constructor(slug: string) {
+    super(`Nenhum link cadastrado com o slug "${slug}".`)
+    this.name = 'LinkNotFoundError'
+    this.slug = slug
+  }
+}
