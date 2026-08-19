@@ -5,9 +5,10 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { createLinkRoute } from './routes/create-link.js'
+import { deleteLinkRoute } from './routes/delete-link.js'
 import { healthRoute } from './routes/health.js'
 import { listLinksRoute } from './routes/list-links.js'
-import { SlugAlreadyInUseError } from './services/errors.js'
+import { LinkNotFoundError, SlugAlreadyInUseError } from './services/errors.js'
 
 export function buildApp(options: FastifyServerOptions = { logger: true }) {
   const app = Fastify(options)
@@ -27,6 +28,10 @@ export function buildApp(options: FastifyServerOptions = { logger: true }) {
       return reply.status(409).send({ message: error.message })
     }
 
+    if (error instanceof LinkNotFoundError) {
+      return reply.status(404).send({ message: error.message })
+    }
+
     app.log.error(error)
 
     return reply.status(500).send({ message: 'Erro interno do servidor.' })
@@ -35,6 +40,7 @@ export function buildApp(options: FastifyServerOptions = { logger: true }) {
   app.register(healthRoute)
   app.register(createLinkRoute)
   app.register(listLinksRoute)
+  app.register(deleteLinkRoute)
 
   return app
 }
