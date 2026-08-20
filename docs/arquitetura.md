@@ -14,7 +14,8 @@ O `web` é uma SPA estática: não renderiza no servidor, não tem backend próp
 banco. O `server` expõe a API REST documentada em OpenAPI e é o único que toca Postgres e R2.
 
 O redirecionamento não acontece no backend por HTTP 302: a rota `/:slug` é uma página do front que
-consulta a API pela URL original, registra o acesso e então redireciona. Isso mantém a SPA como
+consulta a API pela URL original, registra o acesso e então redireciona. O enunciado oficial, lido em
+19/08/2026, confirmou esse desenho ao descrever a página `/:url-encurtada` do frontend. Isso mantém a SPA como
 dona do roteamento e permite mostrar estado de carregamento e página de "link não encontrado".
 
 ## Estrutura de pastas
@@ -82,12 +83,27 @@ teórico, mas a estrutura é a correta e é o que o projeto se propõe a exercit
 **Descartamos:** carregar tudo em memória e montar a string do CSV — mais simples e errado por
 construção.
 
-### Contagem de acessos no momento do redirect
+### Busca e contagem de acessos em rotas separadas
 
-**Escolhemos:** a API tem uma rota que devolve a URL original e incrementa o contador de acessos
-daquele link.
-**Porque:** é o único ponto por onde todo acesso real passa.
-**Descartamos:** contar no carregamento da listagem — contaria visualização do dono, não acesso.
+**Escolhemos:** uma rota devolve a URL original a partir do slug, sem efeito colateral, e outra
+incrementa o contador. A página de redirecionamento do front chama as duas.
+**Porque:** o enunciado lista "obter a URL original" e "incrementar acessos" como funcionalidades
+separadas. Além disso, um `GET` sem efeito colateral permite consultar um link sem inflar o contador,
+o que a listagem e a página de erro precisam.
+**Descartamos:** devolver e incrementar na mesma rota, que era a decisão anterior a 19/08/2026 —
+junta o que o enunciado separa e esconde efeito colateral num `GET`. Descartamos também contar no
+carregamento da listagem, que contaria visualização do dono, não acesso.
+
+O incremento é uma única instrução SQL (`access_count = access_count + 1`), e não uma leitura
+seguida de gravação: dois acessos simultâneos ao mesmo link perderiam contagem no segundo caso.
+
+### Slug como identificador nas operações
+
+**Escolhemos:** deletar e incrementar acessos identificam o link pelo slug.
+**Porque:** o enunciado deixa a escolha entre id e URL encurtada em aberto, mas exige consistência
+entre as operações — e o slug é o que o frontend tem em mãos na página de redirecionamento.
+**Descartamos:** usar o `id` uuid, que obrigaria o front a guardar um identificador que ele não vê na
+URL curta.
 
 ### React + Vite, sem framework de servidor
 
