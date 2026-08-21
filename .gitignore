@@ -1,7 +1,14 @@
 node_modules/
 dist/
 build/
+
+# Arquivos de configuracao com credencial. O padrao com curinga pega variacoes
+# como .env.local, .env.bak e .env.producao: o backup de um arquivo de segredo e
+# tao perigoso quanto o original, e foi assim que um backup quase escapou no
+# setup do R2.
 .env
-.env.local
+.env.*
+!.env.example
+
 *.log
 .DS_Store

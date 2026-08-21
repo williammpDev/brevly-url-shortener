@@ -13,6 +13,20 @@ const envSchema = z.object({
     .refine((value) => value.startsWith('postgresql://'), {
       error: 'precisa começar com postgresql://',
     }),
+
+  // O painel do Cloudflare mostra o endpoint completo bem ao lado do ID, e
+  // colar o endpoint aqui gera uma URL duplicada que falha com erro obscuro.
+  // A validação de formato transforma isso em mensagem clara na inicialização.
+  CLOUDFLARE_ACCOUNT_ID: z
+    .string()
+    .regex(
+      /^[0-9a-f]{32}$/,
+      'é o ID da conta, 32 caracteres hexadecimais — sem https:// e sem .r2.cloudflarestorage.com',
+    ),
+  CLOUDFLARE_ACCESS_KEY_ID: z.string().min(1, 'variável obrigatória ausente'),
+  CLOUDFLARE_SECRET_ACCESS_KEY: z.string().min(1, 'variável obrigatória ausente'),
+  CLOUDFLARE_BUCKET: z.string().min(1, 'variável obrigatória ausente'),
+  CLOUDFLARE_PUBLIC_URL: z.url('precisa ser a URL pública do bucket, começando com https://'),
 })
 
 export type Env = z.infer<typeof envSchema>
