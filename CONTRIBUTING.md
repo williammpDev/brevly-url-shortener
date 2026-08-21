@@ -19,6 +19,11 @@ Exemplo: `nova-funcao/7-exportar-relatorio-csv`.
 Commits seguem o padrão convencional (`feat:`, `fix:`, `chore:`, `docs:`, `test:`, `refactor:`),
 porque o commitlint valida isso no hook e no CI.
 
+A mensagem de commit é escrita **em inglês**, desde 20/08/2026 — commits anteriores a essa data estão
+em português e ficam como estão. O resto continua em português: Issues, descrição de Pull Request,
+documentação, comentários de código e mensagens de erro da API. Só os identificadores do código
+acompanham o inglês do commit.
+
 ## Pull Request
 
 A descrição precisa ter: a Issue relacionada (`Closes #NN`), o que mudou, como foi validado,
@@ -52,6 +57,9 @@ erro mais comum quando parte do código vem de assistente de IA.
 - A mudança resolve o problema de hoje, sem camada extra para caso de uso que ninguém pediu.
 - Nenhuma consulta N+1, nenhum arquivo grande carregado inteiro em memória, índice presente nas
   colunas que os filtros usam.
-- Duplicação só virou abstração quando três ocorrências mudam pela mesma razão.
+- Duplicação de **comportamento** só virou abstração quando três ocorrências mudam pela mesma razão.
+  Definição de **contrato** — schema de entrada e saída da API, tipo de domínio compartilhado — é
+  extraída na segunda: ela muda por um motivo só, e para todo mundo ao mesmo tempo. Duplicá-la não
+  protege de nada, só permite que as pontas discordem.
 - O front não conhece a estrutura das tabelas nem fala com o banco. O contrato entre as pontas é
   a API.
