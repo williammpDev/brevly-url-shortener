@@ -6,6 +6,14 @@ export const exportLinksReportRoute: FastifyPluginAsyncZod = async (app) => {
   app.post(
     '/links/exports',
     {
+      // A rota mais cara da API: varre a tabela inteira e escreve no R2. O
+      // limite proprio evita que uma chamada em laco vire custo de storage.
+      config: {
+        rateLimit: {
+          max: 10,
+          timeWindow: '1 minute',
+        },
+      },
       schema: {
         summary: 'Gera o relatório de links em CSV e devolve a URL do arquivo',
         tags: ['links'],
