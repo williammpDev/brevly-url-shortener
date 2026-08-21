@@ -11,6 +11,7 @@ const valido = {
   CLOUDFLARE_SECRET_ACCESS_KEY: 'segredo',
   CLOUDFLARE_BUCKET: 'brevly-reports',
   CLOUDFLARE_PUBLIC_URL: 'https://pub-exemplo.r2.dev',
+  SHORT_LINK_BASE_URL: 'https://brev.ly',
 }
 
 describe('parseEnv', () => {

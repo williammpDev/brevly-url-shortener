@@ -13,6 +13,7 @@ export default defineConfig({
       CLOUDFLARE_SECRET_ACCESS_KEY: 'segredo-de-teste',
       CLOUDFLARE_BUCKET: 'bucket-de-teste',
       CLOUDFLARE_PUBLIC_URL: 'https://pub-exemplo.r2.dev',
+      SHORT_LINK_BASE_URL: 'https://brev.ly',
     },
     // Cada arquivo de teste sobe o app inteiro, e o primeiro boot carrega
     // Fastify, Zod e Swagger: ~2s sozinho, mais que isso com os arquivos

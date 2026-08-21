@@ -9,6 +9,7 @@ import {
 } from 'fastify-type-provider-zod'
 import { createLinkRoute } from './routes/create-link.js'
 import { deleteLinkRoute } from './routes/delete-link.js'
+import { exportLinksReportRoute } from './routes/export-links-report.js'
 import { getLinkBySlugRoute } from './routes/get-link-by-slug.js'
 import { healthRoute } from './routes/health.js'
 import { incrementLinkAccessRoute } from './routes/increment-link-access.js'
@@ -66,6 +67,7 @@ export function buildApp(options: FastifyServerOptions = { logger: true }) {
   app.register(deleteLinkRoute)
   app.register(getLinkBySlugRoute)
   app.register(incrementLinkAccessRoute)
+  app.register(exportLinksReportRoute)
 
   return app
 }
