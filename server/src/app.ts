@@ -6,7 +6,9 @@ import {
 } from 'fastify-type-provider-zod'
 import { createLinkRoute } from './routes/create-link.js'
 import { deleteLinkRoute } from './routes/delete-link.js'
+import { getLinkBySlugRoute } from './routes/get-link-by-slug.js'
 import { healthRoute } from './routes/health.js'
+import { incrementLinkAccessRoute } from './routes/increment-link-access.js'
 import { listLinksRoute } from './routes/list-links.js'
 import { LinkNotFoundError, SlugAlreadyInUseError } from './services/errors.js'
 
@@ -41,6 +43,8 @@ export function buildApp(options: FastifyServerOptions = { logger: true }) {
   app.register(createLinkRoute)
   app.register(listLinksRoute)
   app.register(deleteLinkRoute)
+  app.register(getLinkBySlugRoute)
+  app.register(incrementLinkAccessRoute)
 
   return app
 }
