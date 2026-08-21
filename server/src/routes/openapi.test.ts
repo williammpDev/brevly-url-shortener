@@ -22,7 +22,7 @@ describe('documento OpenAPI', () => {
     const { paths } = await documento().then((r) => r.json())
 
     expect(Object.keys(paths).sort()).toEqual(
-      ['/health', '/links', '/links/{slug}', '/links/{slug}/access-count'].sort(),
+      ['/health', '/links', '/links/exports', '/links/{slug}', '/links/{slug}/access-count'].sort(),
     )
     expect(Object.keys(paths['/links']).sort()).toEqual(['get', 'post'])
     expect(Object.keys(paths['/links/{slug}']).sort()).toEqual(['delete', 'get'])
@@ -35,6 +35,18 @@ describe('documento OpenAPI', () => {
 
     expect(corpo.required.sort()).toEqual(['originalUrl', 'slug'])
     expect(corpo.properties.slug.maxLength).toBe(60)
+  })
+
+  /**
+   * A rota do relatório não existia quando o documento foi configurado: ela
+   * apareceu sozinha ao ser criada, que é o ponto de gerar a documentação a
+   * partir dos schemas em vez de escrevê-la à mão.
+   */
+  it('inclui a rota de exportação do relatório', async () => {
+    const { paths } = await documento().then((r) => r.json())
+
+    expect(Object.keys(paths['/links/exports'])).toEqual(['post'])
+    expect(paths['/links/exports'].post.responses['200']).toBeDefined()
   })
 
   it('descreve os códigos de resposta de cada rota, incluindo os de erro', async () => {

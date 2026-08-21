@@ -27,6 +27,14 @@ const envSchema = z.object({
   CLOUDFLARE_SECRET_ACCESS_KEY: z.string().min(1, 'variável obrigatória ausente'),
   CLOUDFLARE_BUCKET: z.string().min(1, 'variável obrigatória ausente'),
   CLOUDFLARE_PUBLIC_URL: z.url('precisa ser a URL pública do bucket, começando com https://'),
+
+  // Base das URLs curtas, usada para montar a coluna "URL encurtada" do
+  // relatório. A API continua devolvendo só o slug nas rotas: quem monta a URL
+  // na interface é o front, com o próprio VITE_FRONTEND_URL. Aqui o server
+  // precisa saber, porque o CSV é lido fora do navegador.
+  SHORT_LINK_BASE_URL: z.url(
+    'precisa ser a URL do frontend com protocolo, como http://localhost:5173',
+  ),
 })
 
 export type Env = z.infer<typeof envSchema>
