@@ -7,26 +7,33 @@ uma pós-graduação, com entrega até 28/08/2026 — o que é avaliado é este 
 ## Stack
 
 Backend: Node.js, TypeScript, Fastify, Zod, Drizzle, PostgreSQL, Cloudflare R2, OpenAPI.
-Frontend: React, Vite, TypeScript.
+Frontend: React, Vite, TypeScript, Tailwind 4, React Query, React Hook Form, Zod e React Router.
 Ambiente local: Docker Compose com Postgres; as duas aplicações rodam pelo npm. Empacotar o backend
 no compose depende da imagem Docker ser exercitada (#28).
 
 ## Onde estamos
 
-Esteira completa (#1 a #6) e backend em construção. Prontos: variáveis de ambiente validadas com
-Zod (#11), tabela de links com Drizzle e migrations (#12), cadastro com 201/409/400 (#13), listagem
-ordenada (#14) e remoção por slug com 204/404 (#15).
-Falta do backend: busca por slug e incremento de acessos, agora em rotas separadas (#16), cliente do
-R2 (#17), relatório em CSV (#18), OpenAPI (#19) e CORS com rate limit (#20). O frontend ainda não
-começou — a primeira é o Style Guide do Figma (#21).
+Backend e frontend completos em funcionalidade, com 131 testes automatizados (85 no server, 46 no
+web).
+
+Backend: configuração validada (#11), tabela de links com Drizzle (#12), cadastro (#13), listagem
+(#14), remoção (#15), busca por slug e incremento em rotas separadas (#16), cliente do R2 (#17),
+relatório em CSV por stream (#18), OpenAPI em `/docs` (#19) e CORS com rate limit (#20).
+
+Frontend: Style Guide do Figma com Tailwind (#21), formulário de cadastro (#22), listagem com
+esqueleto, estado vazio e cópia (#23), remoção com confirmação (#24), download do CSV (#25), página
+`/:slug` com redirecionamento (#26) e página de link não encontrado (#27).
+
+Falta: exportar os vetores do logo e do 404 do Figma (#59) e o favicon que depende deles (#8),
+exercitar a imagem Docker do backend (#28) e publicar o frontend (#29).
 
 ## Nível da esteira
 
 Nível 1 — enxuto.
 
 Rodando: Biome (lint e formatação), Commitlint no hook local e no CI, Vitest nos dois workspaces,
-CI com lint, testes e build em cada PR, checklist de arquitetura na revisão do PR.
-Ainda previsto para o nível 1: rate limit nas rotas públicas (#20), que depende das rotas existirem.
+CI com lint, testes e build em cada PR, ruleset da `main` exigindo os dois checks, rate limit e CORS
+restrito na API, e checklist de arquitetura na revisão do PR.
 Fora deste nível: observabilidade, testes de integração e e2e, cobertura medida, mutation testing.
 
 ## Decisões recentes
@@ -42,6 +49,12 @@ Fora deste nível: observabilidade, testes de integração e e2e, cobertura medi
 - 14/08/2026 — deploy do backend em AWS ECS é opcional, dependente de sobrar prazo — Docker Compose
   local é obrigatório e já cobre a avaliação; publicar em nuvem só se o restante do backlog estiver
   pronto antes de 28/08/2026.
+- 22/08/2026 — Tailwind 4 no frontend, com os tokens do Figma num bloco `@theme` único — a Style
+  Guide já vem como escala fechada, o enunciado recomenda, e o `upload-widget` da pós serve de
+  referência. Registrada em `docs/arquitetura.md`.
+- 22/08/2026 — React Query, React Hook Form, Zod e React Router no frontend — as três primeiras são
+  recomendação explícita do enunciado; o roteador é consequência das três páginas que ele descreve.
+- 22/08/2026 — mensagens de commit em inglês, o resto do repositório em português.
 
 ## Requisitos do enunciado
 
@@ -83,6 +96,11 @@ interface otimista). O próprio documento pede que fiquem em branch separada, de
 - Deploy do backend em AWS ECS continua opcional (ver Decisões recentes). O Docker Compose local já
   está no repositório e cobre a obrigação; se o prazo não sobrar, o registro da decisão fica aqui e
   em `docs/arquitetura.md`, e a Issue #29 cuida apenas do deploy do frontend.
+- A marca e o `404` da interface são provisórios: os vetores do Figma nunca foram exportados (#59), e
+  o favicon (#8) depende deles.
+- A verificação de ponta a ponta do frontend contra o backend real ainda não foi feita — as telas
+  foram exercitadas no navegador contra uma API de mentira, porque o Docker não subiu na sessão de
+  22/08/2026.
 
 ## Regras de trabalho
 
