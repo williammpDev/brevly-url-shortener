@@ -1,13 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { buildApp } from '../app.js'
+import { sharedTestApp } from '../test/shared-app.js'
+
+const app = sharedTestApp()
 
 async function documento() {
-  const app = buildApp({ logger: false })
-  await app.ready()
-  const response = await app.inject({ method: 'GET', url: '/docs/json' })
-  await app.close()
-
-  return response
+  return app.inject({ method: 'GET', url: '/docs/json' })
 }
 
 describe('documento OpenAPI', () => {

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { buildApp } from '../app.js'
 import { LinkNotFoundError } from '../services/errors.js'
+import { sharedTestApp } from '../test/shared-app.js'
 
 const mocks = vi.hoisted(() => ({ incrementLinkAccess: vi.fn() }))
 
@@ -8,12 +8,10 @@ vi.mock('../services/increment-link-access.js', () => ({
   incrementLinkAccess: mocks.incrementLinkAccess,
 }))
 
-async function contar(slug: string) {
-  const app = buildApp({ logger: false })
-  const response = await app.inject({ method: 'PATCH', url: `/links/${slug}/access-count` })
-  await app.close()
+const app = sharedTestApp()
 
-  return response
+async function contar(slug: string) {
+  return app.inject({ method: 'PATCH', url: `/links/${slug}/access-count` })
 }
 
 describe('PATCH /links/:slug/access-count', () => {
