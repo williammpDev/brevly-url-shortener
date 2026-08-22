@@ -2,6 +2,7 @@ import { LinkIcon } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { listLinks } from '../http/list-links.js'
 import { Card } from './card.js'
+import { DownloadCsvButton } from './download-csv-button.js'
 import { LinkListItem } from './link-list-item.js'
 import { Skeleton } from './skeleton.js'
 
@@ -15,7 +16,12 @@ export function LinkList() {
 
   return (
     <Card className="flex flex-col gap-4">
-      <h2 className="text-lg font-bold text-gray-600">Meus links</h2>
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-lg font-bold text-gray-600">Meus links</h2>
+
+        {/* Sem link cadastrado não há relatório para gerar, e o Figma mostra o botão apagado. */}
+        <DownloadCsvButton disabled={isPending || !links || links.length === 0} />
+      </div>
 
       {isPending ? <ListaCarregando /> : null}
 
