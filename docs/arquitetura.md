@@ -105,6 +105,20 @@ entre as operações — e o slug é o que o frontend tem em mãos na página de
 **Descartamos:** usar o `id` uuid, que obrigaria o front a guardar um identificador que ele não vê na
 URL curta.
 
+### Tailwind 4 para o tema, com os tokens vindos do Figma
+
+**Escolhemos:** Tailwind 4 no `web`, com o tema declarado em `web/src/styles/theme.css` — cor,
+tipografia e motion num bloco `@theme` só — e `tailwind-variants` para as variantes de componente.
+**Porque:** a Style Guide do Figma já vem como escala fechada de cor e tipografia, que vira tema em
+poucas linhas; o enunciado lista Tailwind como uso flexível e recomenda mobile first com ele; e é o
+que o projeto `upload-widget` da mesma pós usa, então os componentes de lá servem de referência.
+**Descartamos:** CSS puro, que exigiria escrever à mão o sistema de variantes, os tokens e as
+utilidades responsivas — mais código para o mesmo resultado, com prazo curto.
+
+Consequência registrada: nenhum componente declara hexadecimal, tamanho de fonte ou duração de
+transição fora de `theme.css`. Motion não vem do Figma, que não especifica duração; os três valores
+(`fast`, `base`, `slow`) são decisão nossa e ficam no mesmo arquivo.
+
 ### React + Vite, sem framework de servidor
 
 **Escolhemos:** SPA com React e Vite, build estático.
