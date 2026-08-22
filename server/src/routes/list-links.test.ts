@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { buildApp } from '../app.js'
+import { sharedTestApp } from '../test/shared-app.js'
 
 const mocks = vi.hoisted(() => ({ listLinks: vi.fn() }))
 
@@ -13,12 +13,10 @@ const link = {
   createdAt: new Date('2026-08-18T12:00:00Z'),
 }
 
-async function listar() {
-  const app = buildApp({ logger: false })
-  const response = await app.inject({ method: 'GET', url: '/links' })
-  await app.close()
+const app = sharedTestApp()
 
-  return response
+async function listar() {
+  return app.inject({ method: 'GET', url: '/links' })
 }
 
 describe('GET /links', () => {

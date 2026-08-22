@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { buildApp } from '../app.js'
+import { sharedTestApp } from '../test/shared-app.js'
 
 const mocks = vi.hoisted(() => ({ exportLinksReport: vi.fn() }))
 
@@ -7,12 +7,10 @@ vi.mock('../services/export-links-report.js', () => ({
   exportLinksReport: mocks.exportLinksReport,
 }))
 
-async function exportar() {
-  const app = buildApp({ logger: false })
-  const response = await app.inject({ method: 'POST', url: '/links/exports' })
-  await app.close()
+const app = sharedTestApp()
 
-  return response
+async function exportar() {
+  return app.inject({ method: 'POST', url: '/links/exports' })
 }
 
 describe('POST /links/exports', () => {

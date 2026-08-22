@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { buildApp } from '../app.js'
 import { SlugAlreadyInUseError } from '../services/errors.js'
+import { sharedTestApp } from '../test/shared-app.js'
 
 const mocks = vi.hoisted(() => ({ createLink: vi.fn() }))
 
@@ -14,12 +14,10 @@ const linkCriado = {
   createdAt: new Date('2026-08-18T12:00:00Z'),
 }
 
-async function cadastrar(body: unknown) {
-  const app = buildApp({ logger: false })
-  const response = await app.inject({ method: 'POST', url: '/links', payload: body })
-  await app.close()
+const app = sharedTestApp()
 
-  return response
+async function cadastrar(body: unknown) {
+  return app.inject({ method: 'POST', url: '/links', payload: body })
 }
 
 describe('POST /links', () => {

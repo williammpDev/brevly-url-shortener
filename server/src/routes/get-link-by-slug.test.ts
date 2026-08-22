@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { buildApp } from '../app.js'
 import { LinkNotFoundError } from '../services/errors.js'
+import { sharedTestApp } from '../test/shared-app.js'
 
 const mocks = vi.hoisted(() => ({ getLinkBySlug: vi.fn() }))
 
@@ -14,12 +14,10 @@ const link = {
   createdAt: new Date('2026-08-20T12:00:00Z'),
 }
 
-async function buscar(slug: string) {
-  const app = buildApp({ logger: false })
-  const response = await app.inject({ method: 'GET', url: `/links/${slug}` })
-  await app.close()
+const app = sharedTestApp()
 
-  return response
+async function buscar(slug: string) {
+  return app.inject({ method: 'GET', url: `/links/${slug}` })
 }
 
 describe('GET /links/:slug', () => {
@@ -39,10 +37,8 @@ describe('GET /links/:slug', () => {
     })
   })
 
-  it('não confunde com a listagem: a rota sem slug continua devolvendo array', async () => {
-    const app = buildApp({ logger: false })
-    const response = await app.inject({ method: 'GET', url: '/links/meu-link' })
-    await app.close()
+  it('não confunde com a listagem: a rota com slug devolve objeto, não array', async () => {
+    const response = await buscar('meu-link')
 
     expect(Array.isArray(response.json())).toBe(false)
   })

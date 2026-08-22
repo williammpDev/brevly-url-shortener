@@ -1,17 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { buildApp } from '../app.js'
 import { LinkNotFoundError } from '../services/errors.js'
+import { sharedTestApp } from '../test/shared-app.js'
 
 const mocks = vi.hoisted(() => ({ deleteLink: vi.fn() }))
 
 vi.mock('../services/delete-link.js', () => ({ deleteLink: mocks.deleteLink }))
 
-async function remover(slug: string) {
-  const app = buildApp({ logger: false })
-  const response = await app.inject({ method: 'DELETE', url: `/links/${slug}` })
-  await app.close()
+const app = sharedTestApp()
 
-  return response
+async function remover(slug: string) {
+  return app.inject({ method: 'DELETE', url: `/links/${slug}` })
 }
 
 describe('DELETE /links/:slug', () => {
