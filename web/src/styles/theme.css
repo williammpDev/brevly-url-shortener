@@ -1,0 +1,44 @@
+/**
+ * Tokens do produto, traduzidos da aba Style Guide do Figma.
+ *
+ * Este é o arquivo único de tokens: cor, tipografia e motion. Nenhum componente
+ * define hexadecimal, tamanho de fonte ou duração de transição fora daqui — o
+ * Tailwind gera as utilitárias a partir destas variáveis.
+ */
+@theme {
+  /* Cores — nomes iguais aos do Figma, para a conversa com o design não ter tradução */
+  --color-blue-base: #2c46b1;
+  --color-blue-dark: #2c4091;
+  --color-gray-100: #f9f9fb;
+  --color-gray-200: #e4e6ec;
+  --color-gray-300: #cdcfd5;
+  --color-gray-400: #74798b;
+  --color-gray-500: #4d505c;
+  --color-gray-600: #1f2025;
+  --color-danger: #b12c4d;
+
+  /* Tipografia — Open Sans, escala do Figma em px comentado */
+  --font-sans: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --text-xs: 0.625rem; /* 10px */
+  --text-xs--line-height: 0.875rem; /* 14px */
+  --text-sm: 0.75rem; /* 12px */
+  --text-sm--line-height: 1rem; /* 16px */
+  --text-md: 0.875rem; /* 14px */
+  --text-md--line-height: 1.125rem; /* 18px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-lg--line-height: 1.5rem; /* 24px */
+  --text-xl: 1.5rem; /* 24px */
+  --text-xl--line-height: 2rem; /* 32px */
+
+  /*
+   * Motion. O Figma não especifica duração, então estes valores são decisão
+   * nossa: rápido para retorno de toque, base para mudança de estado visível,
+   * lento só para entrada de elemento. Mudar aqui muda a interface inteira.
+   */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out-soft: cubic-bezier(0, 0, 0.2, 1);
+}
