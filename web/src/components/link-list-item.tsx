@@ -1,5 +1,7 @@
-import { CopyIcon } from '@phosphor-icons/react'
+import { CopyIcon, TrashIcon } from '@phosphor-icons/react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+import { deleteLink } from '../http/delete-link.js'
 import type { Link } from '../http/types.js'
 import { env } from '../lib/env.js'
 import { IconButton } from './icon-button.js'
@@ -13,6 +15,28 @@ import { IconButton } from './icon-button.js'
 export function LinkListItem({ link }: { link: Link }) {
   const shortUrl = new URL(link.slug, env.VITE_FRONTEND_URL).toString()
   const [copia, setCopia] = useState<'ocioso' | 'copiado' | 'falhou'>('ocioso')
+  const [erroAoRemover, setErroAoRemover] = useState<string | null>(null)
+  const queryClient = useQueryClient()
+
+  const { mutate: remover, isPending: removendo } = useMutation({
+    mutationFn: () => deleteLink(link.slug),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['links'] }),
+    onError: (erro) =>
+      setErroAoRemover(erro instanceof Error ? erro.message : 'Não foi possível remover o link.'),
+  })
+
+  /**
+   * A remoção é irreversível e não há dono do link: a confirmação é a única
+   * proteção contra clique acidental. Usa o diálogo do navegador porque o Figma
+   * não desenha modal, e inventar um seria desenhar por conta própria.
+   */
+  function confirmarRemocao() {
+    setErroAoRemover(null)
+
+    if (window.confirm(`Remover o link ${shortUrl}? Essa ação não pode ser desfeita.`)) {
+      remover()
+    }
+  }
 
   useEffect(() => {
     if (copia === 'ocioso') {
@@ -58,6 +82,7 @@ export function LinkListItem({ link }: { link: Link }) {
         <IconButton
           aria-label={`Copiar ${shortUrl}`}
           onClick={copiar}
+          disabled={removendo}
           title={copia === 'copiado' ? 'Copiado' : 'Copiar link encurtado'}
         >
           <CopyIcon
@@ -65,9 +90,24 @@ export function LinkListItem({ link }: { link: Link }) {
             weight="bold"
           />
         </IconButton>
+
+        <IconButton
+          aria-label={`Remover ${shortUrl}`}
+          onClick={confirmarRemocao}
+          disabled={removendo}
+          title="Remover link"
+        >
+          <TrashIcon className="size-4" weight="bold" />
+        </IconButton>
       </div>
 
       {/* Anúncio para leitor de tela: o ícone mudar de cor não é percebido por quem não vê. */}
+      {erroAoRemover ? (
+        <span role="alert" className="shrink-0 text-sm text-danger">
+          {erroAoRemover}
+        </span>
+      ) : null}
+
       <span aria-live="polite" className="sr-only">
         {copia === 'copiado' ? 'Link copiado para a área de transferência' : ''}
         {copia === 'falhou' ? 'Não foi possível copiar o link' : ''}
